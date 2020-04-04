@@ -1,5 +1,5 @@
 <template>
-  <div class="base-segment" @click="setTime">
+  <div class="base-segment" :class="{ playing: isPlaying }" @click="setTime">
     <div class="base-segment--speaker">{{ speaker }}</div>
     <div class="base-segment--start-time">{{ startTime }}</div>
     <div class="base-segment--script">{{ script }}</div>
@@ -25,6 +25,10 @@ export default Vue.extend({
     endTime: {
       type: Number,
       required: true
+    },
+    isPlaying: {
+      type: Boolean,
+      required: true
     }
   },
   methods: {
@@ -44,6 +48,9 @@ export default Vue.extend({
   &:hover {
     background-color: #ddd;
     cursor: pointer;
+  }
+  &.playing {
+    background-color: #ddd;
   }
 }
 .base-segment--speaker, .base-segment--start-time {

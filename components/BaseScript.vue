@@ -7,6 +7,7 @@
       :script="item.alternatives[0].transcript"
       :start-time="Number(item.start_time)"
       :end-time="Number(item.end_time)"
+      :is-playing="index === 0"
       @setTime="setTime"
     />
   </div>
