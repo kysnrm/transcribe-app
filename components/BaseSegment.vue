@@ -1,5 +1,5 @@
 <template>
-  <div>{{ speaker }} {{ script }}</div>
+  <div>{{ speaker }} {{ script }} {{ startTime }}~{{ endTime }}</div>
 </template>
 
 <script lang="ts">
@@ -15,6 +15,10 @@ export default Vue.extend({
       required: true
     },
     startTime: {
+      type: Number,
+      required: true
+    },
+    endTime: {
       type: Number,
       required: true
     }
