@@ -1,6 +1,7 @@
 <template>
   <div>
-    <audio controls src="../assets/test.mp3"></audio>
+    <audio id="base-audio" controls src="../assets/test.mp3"></audio>
+    <button @click="setTime(15)">setTime</button>
   </div>
 </template>
 
@@ -8,6 +9,14 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  data: () => {}
+  methods: {
+    setTime: (time: number) => {
+      const audio = document.getElementById('base-audio')
+      if (!(audio instanceof HTMLMediaElement)) {
+        throw new TypeError('#base-audio is not an HTMLMediaElement')
+      }
+      audio.currentTime = time
+    }
+  }
 })
 </script>
