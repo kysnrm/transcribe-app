@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-for="(item, index) in response.results.segments" :key="index">
+    <div
+      v-for="(item, index) in response.results.segments"
+      :key="index"
+      @click="setTime(item.start_time)"
+    >
       {{ response.results.speaker_labels.segments[index].speaker_label }}
       {{ item.alternatives[0].transcript }}
     </div>
@@ -15,6 +19,11 @@ export default Vue.extend({
   data: () => {
     return {
       response: Response
+    }
+  },
+  methods: {
+    setTime(time: number) {
+      this.$emit('setTime', time)
     }
   }
 })
