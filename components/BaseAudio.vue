@@ -1,6 +1,12 @@
 <template>
   <div>
-    <audio id="base-audio" controls src="../assets/test.mp3"></audio>
+    <audio
+      id="base-audio"
+      ref="audio"
+      controls
+      src="../assets/test.mp3"
+      @timeupdate="updateCurrentTime"
+    ></audio>
   </div>
 </template>
 
@@ -8,14 +14,19 @@
 import Vue from 'vue'
 
 export default Vue.extend({
+  data: () => {
+    return {
+      currentTime: 0
+    }
+  },
   methods: {
-    setTime: (time: number) => {
-      const audio = document.getElementById('base-audio')
-      if (!(audio instanceof HTMLMediaElement)) {
-        throw new TypeError('#base-audio is not an HTMLMediaElement')
-      }
-      audio.currentTime = time
-      audio.play()
+    setTime(time: number) {
+      this.$refs.audio.currentTime = time
+      this.$refs.audio.play()
+    },
+    updateCurrentTime() {
+      this.$emit('updateCurrentTime', this.$refs.audio.currentTime)
+      // this.currentTime = this.$refs.audio.currentTime
     }
   }
 })

@@ -7,6 +7,10 @@
       :script="item.alternatives[0].transcript"
       :start-time="Number(item.start_time)"
       :end-time="Number(item.end_time)"
+      :is-playing="
+        currentTime > Number(item.start_time) &&
+          currentTime < Number(item.end_time)
+      "
       @setTime="setTime"
     />
   </div>
@@ -24,6 +28,12 @@ export default Vue.extend({
   data: () => {
     return {
       response: Response
+    }
+  },
+  props: {
+    currentTime: {
+      type: Number,
+      required: true
     }
   },
   methods: {

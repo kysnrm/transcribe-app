@@ -1,7 +1,7 @@
 <template>
   <div>
-    <base-script @setTime="setTime" />
-    <base-audio ref="audio" />
+    <base-script :current-time="currentTime" @setTime="setTime" />
+    <base-audio ref="audio" @updateCurrentTime="updateCurrentTime" />
   </div>
 </template>
 
@@ -15,9 +15,17 @@ export default Vue.extend({
     BaseScript,
     BaseAudio
   },
+  data: () => {
+    return {
+      currentTime: 0
+    }
+  },
   methods: {
     setTime(time: number) {
       this.$refs.audio.setTime(time)
+    },
+    updateCurrentTime(time: number) {
+      this.currentTime = time
     }
   }
 })
