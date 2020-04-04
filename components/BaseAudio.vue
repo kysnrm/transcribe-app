@@ -7,7 +7,6 @@
       src="../assets/test.mp3"
       @timeupdate="updateCurrentTime"
     ></audio>
-    {{ currentTime }}
   </div>
 </template>
 
@@ -26,7 +25,8 @@ export default Vue.extend({
       this.$refs.audio.play()
     },
     updateCurrentTime() {
-      this.currentTime = this.$refs.audio.currentTime
+      this.$emit('updateCurrentTime', this.$refs.audio.currentTime)
+      // this.currentTime = this.$refs.audio.currentTime
     }
   }
 })
