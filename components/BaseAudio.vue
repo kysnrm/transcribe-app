@@ -1,7 +1,6 @@
 <template>
   <div>
     <audio id="base-audio" controls src="../assets/test.mp3"></audio>
-    <button @click="setTime(15)">setTime</button>
   </div>
 </template>
 
@@ -16,6 +15,7 @@ export default Vue.extend({
         throw new TypeError('#base-audio is not an HTMLMediaElement')
       }
       audio.currentTime = time
+      audio.play()
     }
   }
 })
