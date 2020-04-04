@@ -25,15 +25,15 @@ export default Vue.extend({
   components: {
     BaseSegment
   },
-  data: () => {
-    return {
-      response: Response
-    }
-  },
   props: {
     currentTime: {
       type: Number,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      response: Response
     }
   },
   methods: {

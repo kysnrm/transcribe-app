@@ -53,7 +53,8 @@ export default Vue.extend({
     background-color: #ddd;
   }
 }
-.base-segment--speaker, .base-segment--start-time {
+.base-segment--speaker,
+.base-segment--start-time {
   margin-right: 0.5rem;
   width: 4rem;
 }
