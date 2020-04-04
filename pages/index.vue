@@ -1,7 +1,7 @@
 <template>
   <div>
-    <base-script />
-    <base-audio />
+    <base-script @setTime="setTime" />
+    <base-audio ref="audio" />
   </div>
 </template>
 
@@ -14,6 +14,11 @@ export default Vue.extend({
   components: {
     BaseScript,
     BaseAudio
+  },
+  methods: {
+    setTime(time: number) {
+      this.$refs.audio.setTime(time)
+    }
   }
 })
 </script>
