@@ -7,7 +7,7 @@
       :script="item.alternatives[0].transcript"
       :start-time="Number(item.start_time)"
       :end-time="Number(item.end_time)"
-      @click="setTime(Number(item.start_time))"
+      @setTime="setTime"
     />
   </div>
 </template>
@@ -33,3 +33,9 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="css" scoped>
+.base-segment + .base-segment {
+  margin-top: 0.5rem;
+}
+</style>

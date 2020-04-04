@@ -1,5 +1,7 @@
 <template>
-  <div>{{ speaker }} {{ script }} {{ startTime }}~{{ endTime }}</div>
+  <div class="base-segment" @click="setTime">
+    {{ speaker }} {{ script }} {{ startTime }}~{{ endTime }}
+  </div>
 </template>
 
 <script lang="ts">
@@ -22,6 +24,18 @@ export default Vue.extend({
       type: Number,
       required: true
     }
+  },
+  methods: {
+    setTime() {
+      this.$emit('setTime', this.startTime)
+    }
   }
 })
 </script>
+
+<style lang="css" scoped>
+.base-segment {
+  padding: 0.25rem;
+  background-color: #eee;
+}
+</style>
