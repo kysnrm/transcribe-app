@@ -21,12 +21,13 @@ export default Vue.extend({
   },
   methods: {
     setTime(time: number) {
-      this.$refs.audio.currentTime = time
-      this.$refs.audio.play()
+      const audio: HTMLAudioElement = this.$refs.audio as HTMLAudioElement
+      audio.currentTime = time
+      audio.play()
     },
     updateCurrentTime() {
-      this.$emit('updateCurrentTime', this.$refs.audio.currentTime)
-      // this.currentTime = this.$refs.audio.currentTime
+      const audio: HTMLAudioElement = this.$refs.audio as HTMLAudioElement
+      this.$emit('updateCurrentTime', audio.currentTime)
     }
   }
 })
