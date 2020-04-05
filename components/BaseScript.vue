@@ -1,47 +1,57 @@
 <template>
   <div>
     <base-segment
-      v-for="(item, index) in response.results.segments"
+      v-for="(item, index) in segments"
       :key="index"
-      :speaker="response.results.speaker_labels.segments[index].speaker_label"
-      :script="item.alternatives[0].transcript"
-      :start-time="Number(item.start_time)"
-      :end-time="Number(item.end_time)"
-      :is-playing="
-        currentTime > Number(item.start_time) &&
-          currentTime < Number(item.end_time)
-      "
+      :speaker="item.speaker"
+      :script="item.script"
+      :start-time="item.startTime"
+      :end-time="item.endTime"
+      :is-playing="currentTime > item.startTime && currentTime < item.endTime"
       @setTime="setTime"
     />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
 
-export default Vue.extend({
+type Segment = {
+  speaker: string
+  startTime: number
+  endTime: Number
+  script: string
+}
+
+@Component({
   components: {
     BaseSegment
-  },
-  props: {
-    currentTime: {
-      type: Number,
-      required: true
-    }
-  },
-  data: () => {
-    return {
-      response: Response
-    }
-  },
-  methods: {
-    setTime(time: number) {
-      this.$emit('setTime', time)
-    }
   }
 })
+export default class BaseScript extends Vue {
+  response: object = Response
+  segments: Segment[] = []
+  mounted() {
+    const segments = Response.results.segments
+    for (let i = 0; i < segments.length; i++) {
+      const segment: Segment = {
+        speaker: Response.results.speaker_labels.segments[i].speaker_label,
+        startTime: Number(segments[i].start_time),
+        endTime: Number(segments[i].end_time),
+        script: segments[i].alternatives[0].transcript
+      }
+      this.segments.push(segment)
+    }
+  }
+
+  @Prop() currentTime!: number
+  setTime(time: number) {
+    this.$emit('setTime', time)
+  }
+}
 </script>
 
 <style lang="css" scoped>
