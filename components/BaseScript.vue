@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { segmentStore } from '~/store'
 
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
@@ -33,8 +34,8 @@ type Segment = {
 })
 export default class BaseScript extends Vue {
   response: object = Response
-  segments: Segment[] = []
   mounted() {
+    segmentStore.refleshScript()
     const segments = Response.results.segments
     for (let i = 0; i < segments.length; i++) {
       const segment: Segment = {
@@ -43,8 +44,12 @@ export default class BaseScript extends Vue {
         endTime: Number(segments[i].end_time),
         script: segments[i].alternatives[0].transcript
       }
-      this.segments.push(segment)
+      segmentStore.importScript(segment)
     }
+  }
+
+  get segments() {
+    return segmentStore.segments
   }
 
   @Prop() currentTime!: number

@@ -1,24 +1,7 @@
-import { Module, VuexModule, Mutation, getModule } from 'vuex-module-decorators'
+import { Store } from 'vuex'
+import { initialiseStores } from '~/utils/store-accessor'
 
-type Segment = {
-  speaker: string
-  startTime: number
-  endTime: number
-  script: string
-}
+const initializer = (store: Store<any>) => initialiseStores(store)
 
-@Module({
-  name: 'mymodule',
-  stateFactory: true,
-  namespaced: true
-})
-class MyModule extends VuexModule {
-  segments: Segment[] = []
-
-  @Mutation
-  updateScript(index: number, text: string) {
-    this.segments[index].script = text
-  }
-}
-
-export default getModule(MyModule)
+export const plugins = [initializer]
+export * from '~/utils/store-accessor'
