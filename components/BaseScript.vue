@@ -22,7 +22,7 @@ import BaseSegment from '@/components/BaseSegment.vue'
 type Segment = {
   speaker: string
   startTime: number
-  endTime: Number
+  endTime: number
   script: string
 }
 
