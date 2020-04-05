@@ -2,7 +2,12 @@
   <div class="base-segment" :class="{ playing: isPlaying }">
     <div class="base-segment--speaker">{{ speaker }}</div>
     <div class="base-segment--start-time" @click="setTime">{{ startTime }}</div>
-    <input type="text" :value="script" @input="updateScript" />
+    <input
+      class="base-segment--script"
+      type="text"
+      :value="script"
+      @input="updateScript"
+    />
   </div>
 </template>
 
@@ -35,10 +40,6 @@ export default class BaseSegment extends Vue {
   background-color: #eee;
   display: flex;
   align-items: center;
-  &:hover {
-    background-color: #ddd;
-    cursor: pointer;
-  }
   &.playing {
     background-color: #ddd;
   }
@@ -46,6 +47,15 @@ export default class BaseSegment extends Vue {
 .base-segment--speaker,
 .base-segment--start-time {
   margin-right: 0.5rem;
+  padding: 0.25rem;
   width: 4rem;
+}
+.base-segment--start-time:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+.base-segment--script {
+  width: 100%;
+  font-size: 1rem;
 }
 </style>
