@@ -17,31 +17,28 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     BaseSegment
-  },
-  props: {
-    currentTime: {
-      type: Number,
-      required: true
-    }
-  },
-  data: () => {
-    return {
-      response: Response
-    }
-  },
-  methods: {
-    setTime(time: number) {
-      this.$emit('setTime', time)
-    }
   }
 })
+export default class BaseScript extends Vue {
+  response: object = Response
+  segments: string[] = ['hoge']
+  mounted() {
+    this.segments.push('fuga')
+  }
+
+  @Prop() currentTime!: number
+  setTime(time: number) {
+    this.$emit('setTime', time)
+  }
+}
 </script>
 
 <style lang="css" scoped>
