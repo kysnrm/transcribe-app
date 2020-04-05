@@ -1,16 +1,13 @@
 <template>
   <div>
     <base-segment
-      v-for="(item, index) in response.results.segments"
+      v-for="(item, index) in segments"
       :key="index"
-      :speaker="response.results.speaker_labels.segments[index].speaker_label"
-      :script="item.alternatives[0].transcript"
-      :start-time="Number(item.start_time)"
-      :end-time="Number(item.end_time)"
-      :is-playing="
-        currentTime > Number(item.start_time) &&
-          currentTime < Number(item.end_time)
-      "
+      :speaker="item.speaker"
+      :script="item.script"
+      :start-time="item.startTime"
+      :end-time="item.endTime"
+      :is-playing="currentTime > item.startTime && currentTime < item.endTime"
       @setTime="setTime"
     />
   </div>
@@ -36,7 +33,7 @@ type Segment = {
 })
 export default class BaseScript extends Vue {
   response: object = Response
-  segments: object[] = []
+  segments: Segment[] = []
   mounted() {
     const segments = Response.results.segments
     for (let i = 0; i < segments.length; i++) {
