@@ -9,6 +9,7 @@
       :end-time="item.endTime"
       :is-playing="currentTime > item.startTime && currentTime < item.endTime"
       @set-time="setTime"
+      @update-script="updateScript($event, index)"
     />
   </div>
 </template>
@@ -50,6 +51,13 @@ export default class BaseScript extends Vue {
 
   get segments() {
     return segmentStore.segments
+  }
+
+  updateScript(text: string, index: number) {
+    segmentStore.updateScript({
+      index,
+      text
+    })
   }
 
   @Prop() currentTime!: number

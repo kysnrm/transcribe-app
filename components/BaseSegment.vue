@@ -1,8 +1,8 @@
 <template>
-  <div class="base-segment" :class="{ playing: isPlaying }" @click="setTime">
+  <div class="base-segment" :class="{ playing: isPlaying }">
     <div class="base-segment--speaker">{{ speaker }}</div>
-    <div class="base-segment--start-time">{{ startTime }}</div>
-    <div class="base-segment--script">{{ script }}</div>
+    <div class="base-segment--start-time" @click="setTime">{{ startTime }}</div>
+    <input type="text" :value="script" @input="updateScript" />
   </div>
 </template>
 
@@ -20,6 +20,11 @@ export default class BaseSegment extends Vue {
   @Emit()
   setTime() {
     return this.startTime
+  }
+
+  @Emit()
+  updateScript(e: Event) {
+    return (e.target as HTMLInputElement).value
   }
 }
 </script>
