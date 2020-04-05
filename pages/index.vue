@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-script :current-time="currentTime" @setTime="setTime" />
+    <base-script :current-time="currentTime" @set-time="setTime" />
     <base-audio
       ref="audio"
       :last-setted-time="lastSettedTime"

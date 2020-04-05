@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
@@ -48,8 +48,10 @@ export default class BaseScript extends Vue {
   }
 
   @Prop() currentTime!: number
+
+  @Emit()
   setTime(time: number) {
-    this.$emit('setTime', time)
+    return time
   }
 }
 </script>
