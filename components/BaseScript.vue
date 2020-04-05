@@ -22,6 +22,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
 
+type Segment = {
+  speaker: string
+  startTime: number
+  endTime: Number
+  script: string
+}
+
 @Component({
   components: {
     BaseSegment
@@ -29,9 +36,18 @@ import BaseSegment from '@/components/BaseSegment.vue'
 })
 export default class BaseScript extends Vue {
   response: object = Response
-  segments: string[] = ['hoge']
+  segments: object[] = []
   mounted() {
-    this.segments.push('fuga')
+    const segments = Response.results.segments
+    for (let i = 0; i < segments.length; i++) {
+      const segment: Segment = {
+        speaker: Response.results.speaker_labels.segments[i].speaker_label,
+        startTime: Number(segments[i].start_time),
+        endTime: Number(segments[i].end_time),
+        script: segments[i].alternatives[0].transcript
+      }
+      this.segments.push(segment)
+    }
   }
 
   @Prop() currentTime!: number
