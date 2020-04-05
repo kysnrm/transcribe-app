@@ -8,32 +8,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop, Emit, Watch, Ref } from 'vue-property-decorator'
 
-export default Vue.extend({
-  props: {
-    lastSettedTime: {
-      type: Number,
-      required: true
-    }
-  },
-  data: () => {
-    return {
-      currentTime: 0
-    }
-  },
-  watch: {
-    lastSettedTime() {
-      const audio: HTMLAudioElement = this.$refs.audio as HTMLAudioElement
-      audio.currentTime = this.lastSettedTime
-      audio.play()
-    }
-  },
-  methods: {
-    updateCurrentTime() {
-      const audio: HTMLAudioElement = this.$refs.audio as HTMLAudioElement
-      this.$emit('updateCurrentTime', audio.currentTime)
-    }
+@Component
+export default class BaseAudio extends Vue {
+  @Prop() lastSettedTime!: number
+  currentTime: number = 0
+
+  @Ref() audio!: HTMLAudioElement
+
+  @Watch('lastSettedTime')
+  onChangeLastSettedTime() {
+    this.audio.currentTime = this.lastSettedTime
+    this.audio.play()
   }
-})
+
+  @Emit()
+  updateCurrentTime() {
+    return this.audio.currentTime
+  }
+}
 </script>

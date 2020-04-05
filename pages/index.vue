@@ -4,7 +4,7 @@
     <base-audio
       ref="audio"
       :last-setted-time="lastSettedTime"
-      @updateCurrentTime="updateCurrentTime"
+      @update-current-time="updateCurrentTime"
     />
   </div>
 </template>
