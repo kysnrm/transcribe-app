@@ -7,36 +7,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  props: {
-    speaker: {
-      type: String,
-      required: true
-    },
-    script: {
-      type: String,
-      required: true
-    },
-    startTime: {
-      type: Number,
-      required: true
-    },
-    endTime: {
-      type: Number,
-      required: true
-    },
-    isPlaying: {
-      type: Boolean,
-      required: true
-    }
-  },
-  methods: {
-    setTime() {
-      this.$emit('setTime', this.startTime)
-    }
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+
+@Component
+export default class BaseSegment extends Vue {
+  @Prop() speaker!: string
+  @Prop() script!: string
+  @Prop() startTime!: number
+  @Prop() endTime!: number
+  @Prop() isPlaying!: boolean
+
+  @Emit()
+  setTime() {
+    return this.startTime
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>

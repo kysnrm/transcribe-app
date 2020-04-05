@@ -8,7 +8,7 @@
       :start-time="item.startTime"
       :end-time="item.endTime"
       :is-playing="currentTime > item.startTime && currentTime < item.endTime"
-      @setTime="setTime"
+      @set-time="setTime"
     />
   </div>
 </template>
