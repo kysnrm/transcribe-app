@@ -7,6 +7,11 @@ type Segment = {
   script: string
 }
 
+type updateScriptPayload = {
+  index: number
+  text: string
+}
+
 @Module({
   name: 'segments',
   stateFactory: true,
@@ -26,7 +31,7 @@ export default class Segments extends VuexModule {
   }
 
   @Mutation
-  updateScript(index: number, text: string) {
-    this.segments[index].script = text
+  updateScript(payload: updateScriptPayload) {
+    this.segments[payload.index].script = payload.text
   }
 }
