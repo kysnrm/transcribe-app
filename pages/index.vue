@@ -1,37 +1,36 @@
 <template>
   <div>
-    <base-script :current-time="currentTime" @setTime="setTime" />
+    <base-script :current-time="currentTime" @set-time="setTime" />
     <base-audio
       ref="audio"
       :last-setted-time="lastSettedTime"
-      @updateCurrentTime="updateCurrentTime"
+      @update-current-time="updateCurrentTime"
     />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component } from 'vue-property-decorator'
+
 import BaseScript from '~/components/BaseScript.vue'
 import BaseAudio from '~/components/BaseAudio.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     BaseScript,
     BaseAudio
-  },
-  data: () => {
-    return {
-      currentTime: 0,
-      lastSettedTime: 0
-    }
-  },
-  methods: {
-    setTime(time: number) {
-      this.lastSettedTime = time
-    },
-    updateCurrentTime(time: number) {
-      this.currentTime = time
-    }
   }
 })
+export default class Index extends Vue {
+  currentTime: number = 0
+  lastSettedTime: number = 0
+
+  setTime(time: number) {
+    this.lastSettedTime = time
+  }
+
+  updateCurrentTime(time: number) {
+    this.currentTime = time
+  }
+}
 </script>
