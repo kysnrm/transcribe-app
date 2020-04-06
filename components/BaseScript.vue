@@ -59,8 +59,14 @@ export default class BaseScript extends Vue {
           })
         )
       }
-      this.storedata = await DataStore.query(Segment)
     }
+    const unSortedStore = await DataStore.query(Segment)
+    unSortedStore.sort((a, b) => {
+      if (a.startTime < b.startTime) return -1
+      if (a.startTime > b.startTime) return 1
+      return 0
+    })
+    this.storedata = unSortedStore
     for (let i = 0; i < this.storedata.length; i++) {
       const data = this.storedata[i]
       const segment: SegmentType = {
@@ -86,14 +92,12 @@ export default class BaseScript extends Vue {
   }
 
   async saveScript() {
-    const segments = segmentStore.segments
-    for (let i = 0; i < segments.length; i++) {
+    for (let i = 0; i < this.segments.length; i++) {
+      const segment = this.segments[i]
+      const original = await DataStore.query(Segment, segment.id)
       await DataStore.save(
-        new Segment({
-          speaker: segments[i].speaker,
-          startTime: segments[i].startTime,
-          endTime: segments[i].endTime,
-          script: segments[i].script
+        Segment.copyOf(original, (updated) => {
+          updated.script = segment.script
         })
       )
     }
