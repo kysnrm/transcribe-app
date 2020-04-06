@@ -1,7 +1,7 @@
 type Segment @model {
 	id: ID!
 	speaker: String!
-	startTime: Int!
-	endTime: Int!
+	startTime: Float!
+	endTime: Float!
 	script: String!
 }
