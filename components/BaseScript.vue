@@ -32,10 +32,10 @@ import BaseSegment from '@/components/BaseSegment.vue'
 
 Amplify.configure({
   "aws_project_region": "ap-northeast-1",
-  "aws_appsync_graphqlEndpoint": process.env.AWS_APPSYNC_GRAPHQLENDPOINT,
+  "aws_appsync_graphqlEndpoint": process.env.APPSYNC_GRAPHQLENDPOINT,
   "aws_appsync_region": "ap-northeast-1",
   "aws_appsync_authenticationType": "API_KEY",
-  "aws_appsync_apiKey": process.env.AWS_APPSYNC_APIKEY
+  "aws_appsync_apiKey": process.env.APPSYNC_APIKEY
 })
 
 type Segment = {
