@@ -22,10 +22,18 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 import { DataStore } from '@aws-amplify/datastore'
 import { Segment } from '@/src/models'
 
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import awsconfig from '@/src/aws-exports'
+
+import * as queries from '@/src/graphql/queries'
+import * as mutations from '@/src/graphql/mutations'
+
 import { segmentStore } from '~/store'
 
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
+
+Amplify.configure(awsconfig)
 
 type SegmentType = {
   speaker: string
@@ -45,22 +53,22 @@ export default class BaseScript extends Vue {
   storedata: Segment[] = []
 
   async mounted() {
-    this.storedata = await DataStore.query(Segment)
+    const getlistSegments = await API.graphql(graphqlOperation(queries.listSegments, { limit: 10000 })) as any
+    this.storedata = getlistSegments.data.listSegments.items as Segment[]
     segmentStore.refleshScript()
     const segments = Response.results.segments
     if (this.storedata.length === 0) {
       for (let i = 0; i < segments.length; i++) {
-        await DataStore.save(
-          new Segment({
-            speaker: Response.results.speaker_labels.segments[i].speaker_label,
-            startTime: Number(segments[i].start_time),
-            endTime: Number(segments[i].end_time),
-            script: segments[i].alternatives[0].transcript
-          })
-        )
+        const segment = {
+          speaker: Response.results.speaker_labels.segments[i].speaker_label,
+          startTime: Number(segments[i].start_time),
+          endTime: Number(segments[i].end_time),
+          script: segments[i].alternatives[0].transcript
+        }
+        await API.graphql(graphqlOperation(mutations.createSegment, { input: segment }))
       }
     }
-    const unSortedStore = await DataStore.query(Segment)
+    const unSortedStore = this.storedata
     unSortedStore.sort((a, b) => {
       if (a.startTime < b.startTime) return -1
       if (a.startTime > b.startTime) return 1
@@ -108,12 +116,13 @@ export default class BaseScript extends Vue {
   async saveScript() {
     for (let i = 0; i < this.segments.length; i++) {
       const segment = this.segments[i]
-      const original = await DataStore.query(Segment, segment.id as string)
-      await DataStore.save(
-        Segment.copyOf(original, (updated) => {
-          updated.script = segment.script
-        })
-      )
+      await API.graphql(graphqlOperation(mutations.updateSegment, { input: segment }))
+      // const original = await DataStore.query(Segment, segment.id as string)
+      // await DataStore.save(
+      //   Segment.copyOf(original, (updated) => {
+      //     updated.script = segment.script
+      //   })
+      // )
     }
   }
 

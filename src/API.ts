@@ -12,8 +12,8 @@ export type CreateSegmentInput = {
 
 export type ModelSegmentConditionInput = {
   speaker?: ModelStringInput | null,
-  startTime?: ModelIntInput | null,
-  endTime?: ModelIntInput | null,
+  startTime?: ModelFloatInput | null,
+  endTime?: ModelFloatInput | null,
   script?: ModelStringInput | null,
   and?: Array< ModelSegmentConditionInput | null > | null,
   or?: Array< ModelSegmentConditionInput | null > | null,
@@ -60,7 +60,7 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelIntInput = {
+export type ModelFloatInput = {
   ne?: number | null,
   eq?: number | null,
   le?: number | null,
@@ -87,8 +87,8 @@ export type DeleteSegmentInput = {
 export type ModelSegmentFilterInput = {
   id?: ModelIDInput | null,
   speaker?: ModelStringInput | null,
-  startTime?: ModelIntInput | null,
-  endTime?: ModelIntInput | null,
+  startTime?: ModelFloatInput | null,
+  endTime?: ModelFloatInput | null,
   script?: ModelStringInput | null,
   and?: Array< ModelSegmentFilterInput | null > | null,
   or?: Array< ModelSegmentFilterInput | null > | null,
