@@ -50,10 +50,14 @@ export default class BaseScript extends Vue {
   storedata: Segment[] = []
 
   async mounted() {
+    // GraphQL で現在 DB に存在する Segment を全件取得
     const getlistSegments = await API.graphql(graphqlOperation(queries.listSegments, { limit: 10000 })) as any
+    // 取得した Segment を data に格納
     this.storedata = getlistSegments.data.listSegments.items as Segment[]
+    // 一旦ストアを空にする
     segmentStore.refleshScript()
     const segments = Response.results.segments
+    // DB が空だった場合に Response の内容を格納する
     if (this.storedata.length === 0) {
       for (let i = 0; i < segments.length; i++) {
         const segment = {
@@ -65,6 +69,7 @@ export default class BaseScript extends Vue {
         await API.graphql(graphqlOperation(mutations.createSegment, { input: segment }))
       }
     }
+    // storedata を startTime で昇順にソート
     const unSortedStore = this.storedata
     unSortedStore.sort((a, b) => {
       if (a.startTime < b.startTime) return -1
@@ -72,6 +77,7 @@ export default class BaseScript extends Vue {
       return 0
     })
     this.storedata = unSortedStore
+    // storedata の内容を store に格納
     for (let i = 0; i < this.storedata.length; i++) {
       const data = this.storedata[i]
       const segment: Segment = {
