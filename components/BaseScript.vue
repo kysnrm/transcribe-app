@@ -12,7 +12,7 @@
       @update-script="updateScript($event, index)"
     />
     <button @click="saveScript">保存する</button>
-    <!-- <button @click="resetScript">最初の状態に戻す</button> -->
+    <button @click="resetScript">最初の状態に戻す</button>
   </div>
 </template>
 
@@ -91,10 +91,24 @@ export default class BaseScript extends Vue {
     })
   }
 
+  async resetScript() {
+    const segments = segmentStore.segments
+    for (let i = 0; i < segments.length; i++) {
+      const original = await DataStore.query(Segment, segments[i].id as string)
+      const script = Response.results.segments[i].alternatives[0].transcript
+      await DataStore.save(
+        Segment.copyOf(original, (updated) => {
+          updated.script = script
+        })
+      )
+      this.updateScript(script, i)
+    }
+  }
+
   async saveScript() {
     for (let i = 0; i < this.segments.length; i++) {
       const segment = this.segments[i]
-      const original = await DataStore.query(Segment, segment.id)
+      const original = await DataStore.query(Segment, segment.id as string)
       await DataStore.save(
         Segment.copyOf(original, (updated) => {
           updated.script = segment.script
