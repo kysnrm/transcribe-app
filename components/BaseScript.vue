@@ -20,10 +20,10 @@
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import awsconfig from '~/src/aws-exports'
+import awsconfig from '../src/aws-exports'
 
-import * as queries from '~/src/graphql/queries'
-import * as mutations from '~/src/graphql/mutations'
+import * as queries from '../src/graphql/queries'
+import * as mutations from '../src/graphql/mutations'
 
 import { segmentStore } from '~/store'
 
