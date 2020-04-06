@@ -19,9 +19,6 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
-import { DataStore } from '@aws-amplify/datastore'
-import { Segment } from '@/src/models'
-
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import awsconfig from '@/src/aws-exports'
 
@@ -35,7 +32,7 @@ import BaseSegment from '@/components/BaseSegment.vue'
 
 Amplify.configure(awsconfig)
 
-type SegmentType = {
+type Segment = {
   speaker: string
   startTime: number
   endTime: number
@@ -77,7 +74,7 @@ export default class BaseScript extends Vue {
     this.storedata = unSortedStore
     for (let i = 0; i < this.storedata.length; i++) {
       const data = this.storedata[i]
-      const segment: SegmentType = {
+      const segment: Segment = {
         speaker: data.speaker,
         startTime: data.startTime,
         endTime: data.endTime,
@@ -102,13 +99,15 @@ export default class BaseScript extends Vue {
   async resetScript() {
     const segments = segmentStore.segments
     for (let i = 0; i < segments.length; i++) {
-      const original = await DataStore.query(Segment, segments[i].id as string)
       const script = Response.results.segments[i].alternatives[0].transcript
-      await DataStore.save(
-        Segment.copyOf(original, (updated) => {
-          updated.script = script
-        })
-      )
+      const newSegment:Segment = {
+        speaker: segments[i].speaker,
+        startTime: segments[i].startTime,
+        endTime: segments[i].endTime,
+        script,
+        id: segments[i].id
+      }
+      await API.graphql(graphqlOperation(mutations.updateSegment, { input: newSegment }))
       this.updateScript(script, i)
     }
   }
@@ -117,12 +116,6 @@ export default class BaseScript extends Vue {
     for (let i = 0; i < this.segments.length; i++) {
       const segment = this.segments[i]
       await API.graphql(graphqlOperation(mutations.updateSegment, { input: segment }))
-      // const original = await DataStore.query(Segment, segment.id as string)
-      // await DataStore.save(
-      //   Segment.copyOf(original, (updated) => {
-      //     updated.script = segment.script
-      //   })
-      // )
     }
   }
 
