@@ -5,6 +5,7 @@ type Segment = {
   startTime: number
   endTime: number
   script: string
+  id?: string
 }
 
 type updateScriptPayload = {

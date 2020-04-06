@@ -1,0 +1,7 @@
+type Segment @model {
+	id: ID!
+	speaker: String!
+	startTime: Int!
+	endTime: Int!
+	script: String!
+}
