@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import { API, graphqlOperation } from 'aws-amplify'
 // import awsconfig from '@/src/aws-exports.js'
 
 import * as queries from '@/src/graphql/queries.ts'
@@ -29,14 +29,6 @@ import { segmentStore } from '~/store'
 
 import Response from '@/assets/asrOutput.json'
 import BaseSegment from '@/components/BaseSegment.vue'
-
-Amplify.configure({
-  "aws_project_region": "ap-northeast-1",
-  "aws_appsync_graphqlEndpoint": process.env.APPSYNC_GRAPHQLENDPOINT,
-  "aws_appsync_region": "ap-northeast-1",
-  "aws_appsync_authenticationType": "API_KEY",
-  "aws_appsync_apiKey": process.env.APPSYNC_APIKEY
-})
 
 type Segment = {
   speaker: string
