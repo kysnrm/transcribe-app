@@ -19,16 +19,18 @@ export default class BaseAudio extends Vue {
   audioPath: object = {}
 
   mounted() {
-    Storage.get('Audio/test.mp3')
-      .then((result) => (this.audioPath = result))
-      .catch((err) => console.log(err))
+    this.getAudio()
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'audio/updateUploaded' && mutation.payload) {
-        Storage.get(`Audio/${audioStore.audio}`)
-          .then((result) => (this.audioPath = result))
-          .catch((err) => console.log(err))
+        setTimeout(this.getAudio() as any, 200)
       }
     })
+  }
+
+  getAudio() {
+    Storage.get(`Audio/${audioStore.audio}`)
+      .then((result) => (this.audioPath = result))
+      .catch((err) => console.log(err))
   }
 
   @Prop() lastSettedTime!: number
