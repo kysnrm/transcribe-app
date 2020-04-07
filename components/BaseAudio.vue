@@ -2,7 +2,7 @@
   <audio
     ref="audio"
     controls
-    src="../assets/test.mp3"
+    :src="audioPath"
     @timeupdate="updateCurrentTime"
   ></audio>
 </template>
@@ -10,8 +10,20 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch, Ref } from 'vue-property-decorator'
 
+import Amplify, { Storage } from 'aws-amplify'
+import awsmobile from '@/src/aws-exports'
+Amplify.configure(awsmobile)
+
 @Component
 export default class BaseAudio extends Vue {
+  audioPath: object = {}
+
+  mounted() {
+    Storage.get('test.mp3')
+      .then((result) => (this.audioPath = result))
+      .catch((err) => console.log(err))
+  }
+
   @Prop() lastSettedTime!: number
   currentTime: number = 0
 

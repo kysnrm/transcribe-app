@@ -2,6 +2,7 @@
   <div>
     <input type="file" accept="audio/mp3" @change="selectFile" />
     <button @click="uploadAudio">音声をアップロード</button>
+    <button @click="downloadAudio">音声をダウンロード</button>
   </div>
 </template>
 
@@ -21,6 +22,12 @@ export default class BaseUploader extends Vue {
 
   uploadAudio() {
     Storage.put('test.mp3', this.uploadFile)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err))
+  }
+
+  downloadAudio() {
+    Storage.get('test.mp3')
       .then((result) => console.log(result))
       .catch((err) => console.log(err))
   }
