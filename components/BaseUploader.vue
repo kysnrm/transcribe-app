@@ -1,6 +1,7 @@
 <template>
   <div>
     <input type="file" accept="audio/mp3" @change="selectFile" />
+    {{ uploadFile }}
     <button @click="uploadAudio">音声をアップロード</button>
     <button @click="downloadAudio">音声をダウンロード</button>
   </div>
@@ -11,6 +12,9 @@ import { Vue, Component } from 'vue-property-decorator'
 
 import Amplify, { Storage } from 'aws-amplify'
 import awsmobile from '@/src/aws-exports'
+
+import { audioStore } from '~/store'
+
 Amplify.configure(awsmobile)
 
 @Component
@@ -21,13 +25,21 @@ export default class BaseUploader extends Vue {
   }
 
   uploadAudio() {
-    Storage.put('test.mp3', this.uploadFile)
+    audioStore.updateUploaded(false)
+    Storage.put((this.uploadFile as any).name, this.uploadFile, {
+      progressCallback(progress: any) {
+        if (progress.loaded === progress.total) {
+          audioStore.updateUploaded(true)
+        }
+      }
+    })
       .then((result) => console.log(result))
       .catch((err) => console.log(err))
+    audioStore.updateAudio((this.uploadFile as any).name)
   }
 
   downloadAudio() {
-    Storage.get('test.mp3')
+    Storage.get(audioStore.audio)
       .then((result) => console.log(result))
       .catch((err) => console.log(err))
   }
