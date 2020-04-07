@@ -10,12 +10,9 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-import Amplify, { Storage } from 'aws-amplify'
-import awsmobile from '@/src/aws-exports'
+import { Storage } from 'aws-amplify'
 
 import { audioStore } from '~/store'
-
-Amplify.configure(awsmobile)
 
 @Component
 export default class BaseUploader extends Vue {

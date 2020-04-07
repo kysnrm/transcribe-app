@@ -10,17 +10,13 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit, Watch, Ref } from 'vue-property-decorator'
 
-import Amplify, { Storage } from 'aws-amplify'
-import awsmobile from '@/src/aws-exports'
+import { Storage } from 'aws-amplify'
 
 import { audioStore } from '~/store'
-
-Amplify.configure(awsmobile)
 
 @Component
 export default class BaseAudio extends Vue {
   audioPath: object = {}
-  uploaded: boolean = false
 
   mounted() {
     Storage.get('test.mp3')
