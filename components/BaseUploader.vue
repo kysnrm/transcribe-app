@@ -1,7 +1,6 @@
 <template>
   <div>
     <input type="file" accept="audio/mp3" @change="selectFile" />
-    {{ uploadFile }}
     <button @click="uploadAudio">音声をアップロード</button>
     <button @click="downloadAudio">音声をダウンロード</button>
   </div>
@@ -23,7 +22,7 @@ export default class BaseUploader extends Vue {
 
   uploadAudio() {
     audioStore.updateUploaded(false)
-    Storage.put((this.uploadFile as any).name, this.uploadFile, {
+    Storage.put(`Audio/${(this.uploadFile as any).name}`, this.uploadFile, {
       progressCallback(progress: any) {
         if (progress.loaded === progress.total) {
           audioStore.updateUploaded(true)
