@@ -17,7 +17,7 @@ Amplify.configure(awsmobile)
 export default class BaseUploader extends Vue {
   uploadFile: string = ''
   selectFile(e: Event) {
-    this.uploadFile = e.target.files[0]
+    this.uploadFile = (e.target as any).files[0]
   }
 
   uploadAudio() {
