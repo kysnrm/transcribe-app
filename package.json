@@ -23,7 +23,7 @@
         "@types/graphql": "^14.5.0",
         "aws-amplify": "^3.0.5",
         "aws-amplify-vue": "^2.1.1",
-        "nuxt": "^2.0.0",
+        "nuxt": "^2.15.8",
         "vue-class-component": "^7.2.3",
         "vue-property-decorator": "^8.4.1",
         "vuex-module-decorators": "^0.16.1"
